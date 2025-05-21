@@ -235,7 +235,7 @@ const Navbar = () => {
                 )}
                 <Link href="/notificaciones" className="relative">
                   <FaBell />
-                  <span className="absolute -top-[5px] -right-[5px] bg-[#3483fa] text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">1</span>
+                  <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">1</span>
                 </Link>
               </>
             ) : (
@@ -253,7 +253,7 @@ const Navbar = () => {
             
             <Link href="/carrito" className="relative">
               <FaShoppingCart size={20} />
-              <span className="absolute -top-[5px] -right-[5px] bg-[#3483fa] text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">1</span>
+              <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">1</span>
             </Link>
             
             {/* Mobile Menu Button - Only shown on mobile */}

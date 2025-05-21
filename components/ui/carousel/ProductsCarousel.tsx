@@ -1,20 +1,15 @@
 'use client'
-
-import { Product } from '@/context/CartContext';
-import { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
 import ProductCard from '../../card/ProductCard';
+import useFetch from '@/hooks/useFetch';
+import { Product } from '@/context/CartContext';
+import 'react-multi-carousel/lib/styles.css';
 
 export default function ProductsCarousel() {
 
-    const [products, setProducts] = useState<Product[]>([]);
 
-    useEffect(() => {
-        fetch('https://fakestoreapi.com/products')
-            .then(response => response.json())
-            .then(data => setProducts(data));
-    }, []);
+    const { data, loading, error } = useFetch<Product[]>('https://fakestoreapi.com/products');
+
 
     const responsive = {
         superLargeDesktop: {
@@ -24,7 +19,7 @@ export default function ProductsCarousel() {
         },
         desktop: {
           breakpoint: { max: 3000, min: 1024 },
-          items: 3
+          items: 5
         },
         tablet: {
           breakpoint: { max: 1024, min: 464 },
@@ -33,13 +28,23 @@ export default function ProductsCarousel() {
         mobile: {
           breakpoint: { max: 464, min: 0 },
           items: 1
+          
         }
       };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
   return (
-    <Carousel responsive={responsive}>
-        {products.map(product => (
-            <ProductCard key={product.id} product={product} />
-        ))} 
-    </Carousel>
+      
+        <Carousel responsive={responsive}>
+            {data?.map(product => (
+                <ProductCard key={product.id} product={product} />
+            ))} 
+        </Carousel>
   );
 };

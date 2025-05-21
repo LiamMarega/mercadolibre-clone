@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import localFont from 'next/font/local'
 import Navbar from "../components/ui/navbar/Navbar";
+import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+
+const ProximaNova = localFont({
+  src: '../lib/fonts/ProximaNova/Proxima Nova Alt Regular.otf',
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${ProximaNova.className} antialiased`}
       >
         <Navbar />
         {children}
