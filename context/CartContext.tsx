@@ -4,12 +4,12 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
 // Define types for cart items and context
 export interface Product {
-  id: string;
-  name: string;
+  id: number;
+  title: string;
   price: number;
-  image: string;
   description: string;
   category: string;
+  image: string;
 }
 
 export interface CartItem {
@@ -81,11 +81,11 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     
     case 'REMOVE_ITEM': {
       const productId = action.payload;
-      const existingItem = state.items.find(item => item.product.id === productId);
+      const existingItem = state.items.find(item => item.product.id === Number(productId));
       
       if (!existingItem) return state;
 
-      const updatedItems = state.items.filter(item => item.product.id !== productId);
+      const updatedItems = state.items.filter(item => item.product.id !== Number(productId));
       
       return {
         ...state,
@@ -102,7 +102,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         return cartReducer(state, { type: 'REMOVE_ITEM', payload: id });
       }
 
-      const existingItemIndex = state.items.findIndex(item => item.product.id === id);
+      const existingItemIndex = state.items.findIndex(item => item.product.id === Number(id));
       
       if (existingItemIndex === -1) return state;
       

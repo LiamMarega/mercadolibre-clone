@@ -83,7 +83,6 @@ export default function HeroCarousel() {
   return (
     <section aria-label="Carrusel principal" className="relative h-screen w-screen overflow-hidden bg-gray-100">
       <div className="relative h-full w-full">
-        {/* Contenedor del carrusel */}
         <div
           className="flex h-full transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(${translateValue}%)` }}
