@@ -5,7 +5,7 @@ export default function ProductCard({product}: {product: Product}) {
   return (
     <div className="w-full max-w-[220px] h-[320px] bg-white border border-none rounded  mx-auto">
       <a href="#" className="block h-[180px]">
-        <img className="p-2 rounded-t-lg w-full h-full object-contain" src={product.image} alt="product image" />
+        <img className="p-2 rounded-t-lg w-full h-full object-contain" src={product.image} alt="product image" onError={(e) => e.currentTarget.src = '/images/mercadolibre-logo.png'} />
       </a>
       <div className="px-3 pb-3 flex flex-col justify-between h-[140px]">
         <a href="#">

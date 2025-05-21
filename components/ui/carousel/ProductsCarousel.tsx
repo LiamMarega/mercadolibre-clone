@@ -8,7 +8,7 @@ import 'react-multi-carousel/lib/styles.css';
 export default function ProductsCarousel() {
 
 
-    const { data, loading, error } = useFetch<Product[]>('https://fakestoreapi.com/products');
+    const { data, loading, error } = useFetch<{products: Product[]}>('https://fakestoreapi.in/api/products');
 
 
     const responsive = {
@@ -42,7 +42,7 @@ export default function ProductsCarousel() {
   return (
       
         <Carousel responsive={responsive}>
-            {data?.map(product => (
+            {data?.products.map(product => (
                 <ProductCard key={product.id} product={product} />
             ))} 
         </Carousel>

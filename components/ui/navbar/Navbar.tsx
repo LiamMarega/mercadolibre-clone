@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FaSearch, FaMapMarkerAlt, FaBell, FaShoppingCart, FaHeart, FaBars } from 'react-icons/fa';
 import Image from 'next/image';
+import useFetch from '@/hooks/useFetch';
 
 const Navbar = () => {
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isLaptop, setIsLaptop] = useState(true);
   // const [isLogged, setIsLogged] = useState(true);
+
+  const { data } = useFetch<{categories: string[]}>('https://fakestoreapi.in/api/products/category');
 
   // Responsive listener
   useEffect(() => {
@@ -120,21 +123,12 @@ const Navbar = () => {
                   {showCategoriesMenu && (
                     <div className="absolute top-full left-0 bg-white rounded-md shadow-md min-w-[230px] z-[100] mt-2">
                       <ul className="py-2">
-                        <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link href="/categorias/tecnologia">Tecnología</Link>
-                        </li>
-                        <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link href="/categorias/hogar">Hogar y Muebles</Link>
-                        </li>
-                        <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link href="/categorias/electrodomesticos">Electrodomésticos</Link>
-                        </li>
-                        <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link href="/categorias/moda">Moda</Link>
-                        </li>
-                        <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link href="/categorias/deportes">Deportes y Fitness</Link>
-                        </li>
+                        {data?.categories.map((category, index) => (
+                          <li key={`${category}-${index}`} className="px-4 py-2 hover:bg-gray-100">
+                            <Link href={`/categorias/${category}`}>{category}</Link>
+                          </li>
+                        ))}
+                      
                       </ul>
                     </div>
                   )}
