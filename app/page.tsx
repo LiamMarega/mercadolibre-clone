@@ -7,7 +7,7 @@ export default function Home() {
       <main className="gap-[32px] row-start-2 items-center sm:items-start">
         <HeroCarousel />
         <div className="flex justify-between items-center max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid grid-cols-2 gap-6 w-full">
             <div className="bg-red-900 rounded flex items-center h-[150px]">
               <div className="flex-1 p-6">
                 <h2 className="text-2xl font-bold text-white mb-2">Perfumes de Lujo</h2>

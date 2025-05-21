@@ -87,7 +87,7 @@ export default function HeroCarousel() {
       <div className="h-[60%] relative">
         <GradientHoriz />
         
-        <div className="absolute bottom-0 left-0 right-0 max-w-6xl mx-auto z-[10] h-[35%]">
+        <div className="absolute bottom-0 left-0 right-0 max-w-6xl mx-auto z-[10] h-[40%]">
           <ProductsCarousel />
         </div>
 
