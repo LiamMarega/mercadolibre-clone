@@ -38,13 +38,15 @@ export interface Product {
     addItem: (item: Product) => void;
     removeItem: (id: number) => void;
     clearCart: () => void;
+    updateQuantity: (id: number, quantity: number) => void;
   }
 
 export const CartContext = createContext<CartContextType>({
     cart: defaultCartState,
     addItem: () => {},
     removeItem: () => {},
-    clearCart: () => {}
+    clearCart: () => {},
+    updateQuantity: () => {}
 })
 
 export function CartProvider({children}: {children: React.ReactNode}){
@@ -94,9 +96,25 @@ export function CartProvider({children}: {children: React.ReactNode}){
     const clearCart = () => {
         setCart(defaultCartState);
     }
+
+    const updateQuantity = (id: number, quantity: number) => {
+        setCart((prevCart: CartState) => {
+            const newItems = prevCart.items.map(item => 
+                item.product.id === id ? { ...item, quantity } : item
+            );
+            const newTotalItems = newItems.reduce((total, item) => total + item.quantity, 0);
+            const newTotalPrice = newItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+
+            return {
+                items: newItems,
+                totalItems: newTotalItems,
+                totalPrice: newTotalPrice
+            };
+        });
+    };
     
     return (
-        <CartContext.Provider value={{cart, addItem, removeItem, clearCart}}> {children} </CartContext.Provider>
+        <CartContext.Provider value={{cart, addItem, removeItem, clearCart, updateQuantity}}> {children} </CartContext.Provider>
     )
 }
 

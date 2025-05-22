@@ -1,16 +1,17 @@
 "use client"
 
-import {  ChevronRight, Info, BackpackIcon } from "lucide-react"
-import {  useCart, Product } from "@/context/CartContext"
+import {  ChevronRight, BackpackIcon, Minus, Plus } from "lucide-react"
+import { useCart, type CartItem as CartItemType } from "@/context/CartContext"
 import Link from "next/link"
 
 // Componente para cada item del carrito
 const CartItem = ({
   item,
+  onQuantityChange,
   onRemove,
 }: {
-  item: Product
-  onQuantityChange: (id: string, quantity: number) => void
+  item: CartItemType
+  onQuantityChange: (id: number, quantity: number) => void
   onRemove: (id: number) => void
 }) => {
   
@@ -23,8 +24,8 @@ const CartItem = ({
 
         <div className="ml-4 flex-shrink-0">
           <img
-            src={item.image || "/placeholder.svg"}
-            alt={item.title}
+            src={item.product.image || "/placeholder.svg"}
+            alt={item.product.title}
             width={80}
             height={80}
             className="rounded object-cover"
@@ -33,52 +34,50 @@ const CartItem = ({
 
         <div className="ml-4 flex-grow">
           <div className="flex flex-col">
-            <h3 className="text-sm font-medium">{item.title}</h3>
-            <p className="text-xs text-gray-500">Sabor: {item.category}</p>
+              <h3 className="text-sm font-medium">{item.product.title}</h3>
+            <p className="text-xs text-gray-500">Sabor: {item.product.category}</p>
 
             <div className="flex space-x-4 mt-2">
-              <button className="text-blue-500 text-xs font-semibold" onClick={() => onRemove(item.id)}>
+              <button className="text-blue-500 text-xs font-semibold" onClick={() => onRemove(item.product.id)}>
                 Eliminar
               </button>
-              <button className="text-blue-500 text-xs font-semibold">Guardar</button>
-              <button className="text-blue-500 text-xs font-semibold">Modificar</button>
+              <button className="text-blue-300 text-xs font-semibold">Guardar</button>
+              <button className="text-blue-300 text-xs font-semibold">Modificar</button>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col items-center ml-4">
           <div className="flex items-center border rounded-md">
-            {/* <button
-              className={`p-1 ${item. <= 1 ? "text-gray-300" : "text-gray-700"}`}
+            <button
+              className={`p-1 ${item.quantity <= 1 ? "text-gray-300" : "text-gray-700"}`}
               disabled={item.quantity <= 1}
-              onClick={() => onQuantityChange(item.id, item.quantity - 1)}
+              onClick={() => onQuantityChange(item.product.id, item.quantity - 1)}
             >
               <Minus size={16} />
-            </button> */}
-            {/* <span className="px-2 text-sm">{item.quantity}</span> */}
-            {/* <button className="p-1 text-gray-700" onClick={() => onQuantityChange(item.id, item.quantity + 1)}>
+            </button>
+            <span className="px-2 text-sm">{item.quantity}</span>
+             <button 
+              className="p-1 text-gray-700" 
+              onClick={() => onQuantityChange(item.product.id, item.quantity + 1)}
+            >
               <Plus size={16} />
-            </button> */}
+            </button>
           </div>
-          {/* <p className="text-xs text-gray-500 mt-1">+{item.stock} disponibles</p> */}
         </div>
 
         <div className="ml-4 flex flex-col items-end">
-          {/* {item.discount > 0 && (
-            <div className="flex items-center">
-              <span className="text-xs text-green-600 font-medium mr-2">-{item.discount}%</span>
-              <span className="text-xs text-gray-500 line-through">${item.originalPrice.toLocaleString("es-AR")}</span>
-            </div>
-          )} */}
           <div className="flex items-center">
-            <Info size={14} className="text-blue-500 mr-1" />
-            <span className="text-lg font-medium">${item.price.toLocaleString("es-AR")}</span>
+            <span className="text-lg font-medium">${item.product.price.toLocaleString("es-AR")}</span>
           </div>
+            {item.product.discount > 0 && (
+                <span className="text-xs text-green-600 font-medium mr-2">-{item.product.discount}%</span>
+            )}
         </div>
       </div>
     </div>
-  )
-}
+  ) 
+} 
 
 // Componente para el resumen de precio total
 const PriceTotal = ({
@@ -127,8 +126,7 @@ const PriceTotal = ({
 // Tipos
 
 export default function Cart() {
-
-  const { cart } = useCart()
+  const { cart, removeItem, updateQuantity } = useCart()
 
   console.log("cart", cart)
 
@@ -164,9 +162,9 @@ export default function Cart() {
               {cart.items.map((item) => (
                 <CartItem
                   key={`cart-item-${item.product.id}`}
-                  item={item.product}
-                  onQuantityChange={() => {}}
-                  onRemove={() => {}}
+                  item={item}
+                  onQuantityChange={updateQuantity}
+                  onRemove={removeItem}
                 />
               ))}
 
