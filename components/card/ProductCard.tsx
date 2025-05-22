@@ -1,12 +1,11 @@
 import { Product } from '@/context/CartContext'
 import React from 'react'
-import AddToCartButton from '../button/AddToCartButton'
 import Link from 'next/link'
 
 export default function ProductCard({product}: {product: Product}) {
   return (
     <Link href={`/product/${product.id}`}>
-    <div className="w-full max-w-[220px] h-[320px] cursor-pointer bg-white border border-none rounded  mx-auto">
+    <div className="w-full max-w-[220px] h-[350px] cursor-pointer bg-white flex flex-col justify-between border border-none rounded  mx-auto">
         <img className="p-2 rounded-t-lg w-full h-full object-contain" src={product.image} alt="product image" onError={(e) => e.currentTarget.src = '/images/mercadolibre-logo.png'} />
       <div className=" px-3 pb-3 flex flex-col justify-between h-[140px]">
         <a href="#">
@@ -20,7 +19,7 @@ export default function ProductCard({product}: {product: Product}) {
             <span className="text-xs font-semibold text-gray-600">4.5</span>
           </div>
         </div>
-        <AddToCartButton product={product} />
+        {/* <AddToCartButton product={product} /> */}
       </div>
     </div>
     </Link>

@@ -10,14 +10,16 @@ export default function ProductDetails({ data }: { data: Product }) {
     <div className="bg-white rounded-lg m-10 p-4 flex flex-col items-start justify-center gap-4">
         <div className="flex flex-row gap-4">
             <div className="flex flex-col gap-4">
-                <div className="size-20 aspect-square bg-gray-400" />
-                <div className="size-20 aspect-square bg-gray-400" />
-                <div className="size-20 aspect-square bg-gray-400" />
+                <div className="size-20 aspect-square bg-gray-200" />
+                <div className="size-20 aspect-square bg-gray-200" />
+                <div className="size-20 aspect-square bg-gray-200" />
+                <div className="size-20 aspect-square bg-gray-200" />
+                <div className="size-20 aspect-square bg-gray-200" />
             </div>
             <ZoomImage 
                 src={data.image} 
                 alt={data.title}  
-                className="aspect-square size-96" 
+                className="aspect-square size-[800px]" 
             />
             <div className="flex flex-col p-8">
                 <h3 className="text-2xl font-bold">{data.title}</h3>
