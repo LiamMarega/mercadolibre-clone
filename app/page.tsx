@@ -1,5 +1,5 @@
 import ProductsCarousel from "@/components/ui/carousel/ProductsCarousel";
-import HeroCarousel from "../components/ui/hero/HeroCarousel";
+import HeroCarousel from "../components/hero/HeroCarousel";
 import Image from "next/image";
 
 export default function Home() {

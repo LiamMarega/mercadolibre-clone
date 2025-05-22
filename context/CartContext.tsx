@@ -26,11 +26,29 @@ export interface Product {
   }
   
 
+  const defaultCartState: CartState = {
+    items: [],
+    totalItems: 0,
+    totalPrice: 0
+  };
 
-export const CartContext = createContext({})
+
+  interface CartContextType {
+    cart: CartState;
+    addItem: (item: Product) => void;
+    removeItem: (id: number) => void;
+    clearCart: () => void;
+  }
+
+export const CartContext = createContext<CartContextType>({
+    cart: defaultCartState,
+    addItem: () => {},
+    removeItem: () => {},
+    clearCart: () => {}
+})
 
 export function CartProvider({children}: {children: React.ReactNode}){
-    const [cart, setCart] = useState<CartState>({items: [], totalItems: 0, totalPrice: 0})
+    const [cart, setCart] = useState<CartState>(defaultCartState)
 
     const addItem = (item: Product) => {
         setCart((prevCart: CartState) => ({...prevCart, items: [...prevCart.items, {product: item, quantity: 1}]}))

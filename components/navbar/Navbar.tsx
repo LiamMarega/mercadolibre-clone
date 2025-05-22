@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { FaSearch, FaMapMarkerAlt, FaBell, FaShoppingCart, FaHeart, FaBars } from 'react-icons/fa';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
+import { CartProvider, useCart } from '@/context/CartContext';
 
 const Navbar = () => {
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
@@ -28,8 +29,11 @@ const Navbar = () => {
   const toggleCategoriesMenu = () => setShowCategoriesMenu(!showCategoriesMenu);
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
+  const {cart} = useCart()
+
   return (
-    <header className="w-full bg-primary">
+  <CartProvider>
+    <header className="w-full bg-primary p-1">
       {/* Top Bar */}
       <div className="max-w-[1200px] mx-auto px-[10px] py-[8px]">
         <div className="flex items-center justify-between">
@@ -47,20 +51,20 @@ const Navbar = () => {
               </div>
             </Link>
             
+          </div>
             {/* Search Bar - Only shown on laptop */}
             {isLaptop && (
-              <div className="relative flex-grow max-w-[600px] mx-4">
+              <div className="relative w-full max-w-[450px] mx-4">
                 <input
                   type="text"
                   placeholder="Buscar productos, marcas y más..."
-                  className="w-full py-2 px-[15px] border-0 rounded text-sm"
+                  className="w-full py-2.5 px-[15px] border-0 rounded text-sm bg-white"
                 />
                 <button className="absolute right-0 top-0 h-full px-[10px] bg-white border-none rounded-r cursor-pointer">
                   <FaSearch className="text-gray-500" />
                 </button>
               </div>
             )}
-          </div>
 
           {/* Subscription Banner - Only shown on laptop */}
           {isLaptop && (
@@ -94,7 +98,7 @@ const Navbar = () => {
       </div>
 
       {/* Bottom Bar with Navigation */}
-      <div className="border-t border-[rgba(0,0,0,0.1)]">
+      <div >
         <div className="max-w-[1200px] mx-auto px-[10px] flex items-center justify-between">
           {/* Location - Simplified on mobile */}
           <div className="flex items-center text-sm text-gray-700 mr-[10px]">
@@ -102,10 +106,10 @@ const Navbar = () => {
             {isLaptop ? (
               <div className="ml-[6px]">
                 <p className="text-xs text-gray-500">Enviar a</p>
-                <p>Calle 1375 SN</p>
+                <p>Calle Rosario del Tala</p>
               </div>
             ) : (
-              <p className="text-xs ml-1">Calle 1375</p>
+              <p className="text-xs ml-1">Calle Rosario del Tala</p>
             )}
           </div>
 
@@ -183,17 +187,17 @@ const Navbar = () => {
                     className="flex items-center space-x-1 text-sm"
                     onClick={toggleUserMenu}
                   >
-                    <span>MAREGA</span>
+                    <span>Liam Marega</span>
                     {isLaptop && <span className="text-xs">▼</span>}
                   </button>
                   {showUserMenu && (
                     <div className="absolute right-0 top-full bg-white rounded-md shadow-md min-w-[280px] z-[100] mt-2">
-                      <div className="p-4 flex items-center space-x-3 border-b">
+                      <div className="p-4 flex items-center space-x-3 ">
                         <div className="bg-[#e5f1ff] text-[#1259c3] rounded-full w-8 h-8 flex items-center justify-center font-medium">
                           <span>ML</span>
                         </div>
                         <div>
-                          <p className="font-medium">MAREGA</p>
+                          <p className="font-medium">Liam Marega</p>
                           <Link href="/perfil" className="text-xs text-blue-500">
                             Mi perfil
                           </Link>
@@ -247,7 +251,7 @@ const Navbar = () => {
             
             <Link href="/cart" className="relative">
               <FaShoppingCart size={20} />
-              <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">1</span>
+             {cart.totalItems > 0 && <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">{cart.totalItems }</span>}
             </Link>
             
             {/* Mobile Menu Button - Only shown on mobile */}
@@ -260,6 +264,7 @@ const Navbar = () => {
         </div>
       </div>
     </header>
+    </CartProvider>
   );
 };
 

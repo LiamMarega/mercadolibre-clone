@@ -5,8 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import GradientHoriz from "../gradient/GradientHoriz"
-import ProductsCarousel from "../carousel/ProductsCarousel"
+import GradientHoriz from "../ui/gradient/GradientHoriz"
+import ProductsCarousel from "../ui/carousel/ProductsCarousel"
 
 // Definición de tipos para las diapositivas
 interface Slide {

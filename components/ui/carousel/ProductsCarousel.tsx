@@ -2,8 +2,8 @@
 import Carousel from 'react-multi-carousel';
 import ProductCard from '../../card/ProductCard';
 import useFetch from '@/hooks/useFetch';
-import { Product } from '@/context/CartContext';
 import 'react-multi-carousel/lib/styles.css';
+import { Product } from '@/context/CartContext';
 
 export default function ProductsCarousel() {
 

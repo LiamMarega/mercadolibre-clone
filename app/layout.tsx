@@ -1,9 +1,8 @@
 
 import type { Metadata } from "next";
 import localFont from 'next/font/local'
-import Navbar from "../components/ui/navbar/Navbar";
+import Navbar from "../components/navbar/Navbar";
 import "./globals.css";
-import { CartProvider } from "@/context/CartContext";
 
 
 
@@ -26,10 +25,8 @@ export default function RootLayout({
       <body
         className={`${ProximaNova.className} antialiased`}
       >
-        <CartProvider>
           <Navbar />
           {children}
-        </CartProvider>
       </body>
     </html>
   );
