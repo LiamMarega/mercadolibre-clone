@@ -1,4 +1,4 @@
-import {createContext, useState} from "react"
+import {createContext, useContext, useState} from "react"
 
 
 export interface Product {
@@ -47,4 +47,12 @@ export function CartProvider({children}: {children: React.ReactNode}){
     return (
         <CartContext.Provider value={{cart, addItem, removeItem, clearCart}}> {children} </CartContext.Provider>
     )
+}
+
+export function useCart(){
+    const context = useContext(CartContext)
+    if (!context) {
+        throw new Error("useCart must be used within a CartProvider")
+    }
+    return context
 }
