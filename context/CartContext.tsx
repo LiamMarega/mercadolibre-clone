@@ -1,4 +1,5 @@
-import {createContext, useContext, useState} from "react"
+import {createContext, useContext, useState, useEffect} from "react"
+import Cookies from 'js-cookie'
 
 
 export interface Product {
@@ -32,6 +33,12 @@ export interface Product {
     totalPrice: 0
   };
 
+  const CART_COOKIE_KEY = 'mercadolibre_cart';
+
+  const getInitialCartState = (): CartState => {
+    const savedCart = Cookies.get(CART_COOKIE_KEY);
+    return savedCart ? JSON.parse(savedCart) : defaultCartState;
+  };
 
   interface CartContextType {
     cart: CartState;
@@ -50,7 +57,11 @@ export const CartContext = createContext<CartContextType>({
 })
 
 export function CartProvider({children}: {children: React.ReactNode}){
-    const [cart, setCart] = useState<CartState>(defaultCartState)
+    const [cart, setCart] = useState<CartState>(getInitialCartState);
+
+    useEffect(() => {
+        Cookies.set(CART_COOKIE_KEY, JSON.stringify(cart), { expires: 7 }); // Cookie expires in 7 days
+    }, [cart]);
 
     const addItem = (item: Product) => {
         setCart((prevCart: CartState) => {

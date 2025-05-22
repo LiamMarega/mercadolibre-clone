@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className="flex flex-col items-center justify-center  h-full pt-40">
     <span className="ui-empty-state__icon" data-reactid="7">
             <svg xmlns="http://www.w3.org/2000/svg" width="251" height="154" viewBox="0 0 251 154" data-reactid="8">
-              <g fill="none" fill-rule="evenodd" data-reactid="9">
+              <g fill="none" fillRule="evenodd" data-reactid="9">
                 <path fill="#CCC" d="M18 151h233v2H18v-2zm-18 0h13v2H0v-2z" data-reactid="10"></path>
                 <path fill="#DFDFDF" d="M152 133v8.165h-50V133H28v8.165c0 5.52 3.405 11.827 13.647 11.835l168.906-.291C228.179 152.723 226.377 133 226 133h-74z" data-reactid="11"></path>
                 <path fill="#F7D032" d="M153.303 133.42l-24.278.011 24.278.018z" data-reactid="12"></path>
