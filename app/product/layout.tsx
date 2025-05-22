@@ -1,4 +1,10 @@
 import type { Metadata } from 'next'
+import localFont from 'next/font/local';
+
+
+const ProximaNova = localFont({
+  src: '../../lib/fonts/ProximaNova/Proxima Nova Alt Regular.otf',
+})
 
 
 export const metadata: Metadata = {
@@ -12,7 +18,7 @@ export default function ProductLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="container mx-auto max-w-7xl">
+    <div className={`${ProximaNova.className} container mx-auto max-w-7xl`}>
       {children}
     </div>
   );
