@@ -1,19 +1,11 @@
-
-import type { Metadata } from "next";
-import localFont from 'next/font/local'
+'use client'
 import Navbar from "../components/navbar/Navbar";
 import "./globals.css";
+import { CartProvider } from "@/context/CartContext";
 
 
 
-const ProximaNova = localFont({
-  src: '../lib/fonts/ProximaNova/Proxima Nova Alt Regular.otf',
-})
 
-export const metadata: Metadata = {
-  title: "ML Clone - Liam Marega",
-  description: "Este es un clone de MercadoLibre creado por Liam Marega, para practicar mis habilidades como desarrollador frontend.",
-};
 
 export default function RootLayout({
   children,
@@ -22,11 +14,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+
       <body
-        className={`${ProximaNova.className} antialiased`}
-      >
+        >
+          <CartProvider>
           <Navbar />
           {children}
+          </CartProvider>
       </body>
     </html>
   );

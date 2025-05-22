@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FaSearch, FaMapMarkerAlt, FaBell, FaShoppingCart, FaHeart, FaBars } from 'react-icons/fa';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
-import { CartProvider, useCart } from '@/context/CartContext';
+import {  useCart } from '@/context/CartContext';
 
 const Navbar = () => {
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
@@ -32,7 +32,6 @@ const Navbar = () => {
   const {cart} = useCart()
 
   return (
-  <CartProvider>
     <header className="w-full bg-primary p-1">
       {/* Top Bar */}
       <div className="max-w-[1200px] mx-auto px-[10px] py-[8px]">
@@ -264,7 +263,6 @@ const Navbar = () => {
         </div>
       </div>
     </header>
-    </CartProvider>
   );
 };
 

@@ -1,19 +1,19 @@
 "use client"
 
-import { useState } from "react"
-import { Minus, Plus, ChevronRight, Info, CheckCircle2 } from "lucide-react"
+import {  ChevronRight, Info, CheckCircle2 } from "lucide-react"
 import Image from "next/image"
+import {  useCart, Product } from "@/context/CartContext"
 
 // Componente para cada item del carrito
 const CartItem = ({
   item,
-  onQuantityChange,
   onRemove,
 }: {
-  item: CartItemType
+  item: Product
   onQuantityChange: (id: string, quantity: number) => void
-  onRemove: (id: string) => void
+  onRemove: (id: number) => void
 }) => {
+  
   return (
     <div className="border-b pb-4">
       <div className="flex items-start pt-4">
@@ -24,7 +24,7 @@ const CartItem = ({
         <div className="ml-4 flex-shrink-0">
           <Image
             src={item.image || "/placeholder.svg"}
-            alt={item.name}
+            alt={item.title}
             width={80}
             height={80}
             className="rounded object-cover"
@@ -33,8 +33,8 @@ const CartItem = ({
 
         <div className="ml-4 flex-grow">
           <div className="flex flex-col">
-            <h3 className="text-sm font-medium">{item.name}</h3>
-            <p className="text-xs text-gray-500">Sabor: {item.flavor}</p>
+            <h3 className="text-sm font-medium">{item.title}</h3>
+            <p className="text-xs text-gray-500">Sabor: {item.category}</p>
 
             <div className="flex space-x-4 mt-2">
               <button className="text-blue-500 text-xs font-semibold" onClick={() => onRemove(item.id)}>
@@ -48,28 +48,28 @@ const CartItem = ({
 
         <div className="flex flex-col items-center ml-4">
           <div className="flex items-center border rounded-md">
-            <button
-              className={`p-1 ${item.quantity <= 1 ? "text-gray-300" : "text-gray-700"}`}
+            {/* <button
+              className={`p-1 ${item. <= 1 ? "text-gray-300" : "text-gray-700"}`}
               disabled={item.quantity <= 1}
               onClick={() => onQuantityChange(item.id, item.quantity - 1)}
             >
               <Minus size={16} />
-            </button>
-            <span className="px-2 text-sm">{item.quantity}</span>
-            <button className="p-1 text-gray-700" onClick={() => onQuantityChange(item.id, item.quantity + 1)}>
+            </button> */}
+            {/* <span className="px-2 text-sm">{item.quantity}</span> */}
+            {/* <button className="p-1 text-gray-700" onClick={() => onQuantityChange(item.id, item.quantity + 1)}>
               <Plus size={16} />
-            </button>
+            </button> */}
           </div>
-          <p className="text-xs text-gray-500 mt-1">+{item.stock} disponibles</p>
+          {/* <p className="text-xs text-gray-500 mt-1">+{item.stock} disponibles</p> */}
         </div>
 
         <div className="ml-4 flex flex-col items-end">
-          {item.discount > 0 && (
+          {/* {item.discount > 0 && (
             <div className="flex items-center">
               <span className="text-xs text-green-600 font-medium mr-2">-{item.discount}%</span>
               <span className="text-xs text-gray-500 line-through">${item.originalPrice.toLocaleString("es-AR")}</span>
             </div>
-          )}
+          )} */}
           <div className="flex items-center">
             <Info size={14} className="text-blue-500 mr-1" />
             <span className="text-lg font-medium">${item.price.toLocaleString("es-AR")}</span>
@@ -125,46 +125,12 @@ const PriceTotal = ({
 }
 
 // Tipos
-interface CartItemType {
-  id: string
-  name: string
-  flavor: string
-  price: number
-  originalPrice: number
-  discount: number
-  quantity: number
-  stock: number
-  image: string
-}
 
 export default function Cart() {
-  // Estado para los items del carrito
-  const [cartItems, setCartItems] = useState<CartItemType[]>([
-    {
-      id: "1",
-      name: "Star Nutrition Whey Protein 2lb + Creatina Monohidrato 300gr",
-      flavor: "Chocolate suizo",
-      price: 82229,
-      originalPrice: 118064,
-      discount: 30,
-      quantity: 1,
-      stock: 50,
-      image: "/placeholder.svg?height=80&width=80",
-    },
-  ])
 
-  // Calcular el total
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const { cart } = useCart()
 
-  // Cambiar cantidad
-  const handleQuantityChange = (id: string, quantity: number) => {
-    setCartItems((items) => items.map((item) => (item.id === id ? { ...item, quantity } : item)))
-  }
-
-  // Eliminar item
-  const handleRemoveItem = (id: string) => {
-    setCartItems((items) => items.filter((item) => item.id !== id))
-  }
+  console.log("cart", cart)
 
   return (
     <div className="bg-gray-100 min-h-screen py-8">
@@ -191,14 +157,12 @@ export default function Cart() {
                   </div>
                 </div>
               </div>
-
-              {/* Lista de items */}
-              {cartItems.map((item) => (
+              {cart.items.map((item) => (
                 <CartItem
-                  key={item.id}
-                  item={item}
-                  onQuantityChange={handleQuantityChange}
-                  onRemove={handleRemoveItem}
+                  key={`cart-item-${item.product.id}`}
+                  item={item.product}
+                  onQuantityChange={() => {}}
+                  onRemove={() => {}}
                 />
               ))}
 
@@ -228,7 +192,7 @@ export default function Cart() {
 
           {/* Columna derecha (resumen) */}
           <div className="lg:col-span-1">
-            <PriceTotal total={total} shipping={{ cost: 0, free: true }} />
+            <PriceTotal total={cart.totalPrice} shipping={{ cost: 0, free: true }} />
           </div>
         </div>
       </div>

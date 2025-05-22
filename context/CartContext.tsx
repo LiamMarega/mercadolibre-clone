@@ -51,17 +51,50 @@ export function CartProvider({children}: {children: React.ReactNode}){
     const [cart, setCart] = useState<CartState>(defaultCartState)
 
     const addItem = (item: Product) => {
-        setCart((prevCart: CartState) => ({...prevCart, items: [...prevCart.items, {product: item, quantity: 1}]}))
-    }
+        setCart((prevCart: CartState) => {
+            const existingItemIndex = prevCart.items.findIndex(
+                (cartItem) => cartItem.product.id === item.id
+            );
+
+            let newItems;
+            if (existingItemIndex > -1) {
+                // Item exists, increment quantity
+                newItems = [...prevCart.items];
+                newItems[existingItemIndex].quantity += 1;
+            } else {
+                // New item
+                newItems = [...prevCart.items, { product: item, quantity: 1 }];
+            }
+
+            const newTotalItems = newItems.reduce((total, item) => total + item.quantity, 0);
+            const newTotalPrice = newItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+
+            return {
+                items: newItems,
+                totalItems: newTotalItems,
+                totalPrice: newTotalPrice
+            };
+        });
+    };
 
     const removeItem = (id: number) => {
-        setCart((prevCart: CartState) => ({...prevCart, items: prevCart.items.filter((item) => item.product.id !== id)}))
-    }
+        setCart((prevCart: CartState) => {
+            const newItems = prevCart.items.filter((item) => item.product.id !== id);
+            const newTotalItems = newItems.reduce((total, item) => total + item.quantity, 0);
+            const newTotalPrice = newItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
 
+            return {
+                items: newItems,
+                totalItems: newTotalItems,
+                totalPrice: newTotalPrice
+            };
+        });
+    };
 
     const clearCart = () => {
-        setCart({items: [], totalItems: 0, totalPrice: 0})
+        setCart(defaultCartState);
     }
+    
     return (
         <CartContext.Provider value={{cart, addItem, removeItem, clearCart}}> {children} </CartContext.Provider>
     )
