@@ -245,7 +245,7 @@ const Navbar = () => {
               </>
             )}
             
-            <Link href="/carrito" className="relative">
+            <Link href="/cart" className="relative">
               <FaShoppingCart size={20} />
               <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">1</span>
             </Link>
