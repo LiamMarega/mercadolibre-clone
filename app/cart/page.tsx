@@ -1,8 +1,8 @@
 "use client"
 
-import {  ChevronRight, Info, CheckCircle2 } from "lucide-react"
-import Image from "next/image"
+import {  ChevronRight, Info, BackpackIcon } from "lucide-react"
 import {  useCart, Product } from "@/context/CartContext"
+import Link from "next/link"
 
 // Componente para cada item del carrito
 const CartItem = ({
@@ -22,7 +22,7 @@ const CartItem = ({
         </div>
 
         <div className="ml-4 flex-shrink-0">
-          <Image
+          <img
             src={item.image || "/placeholder.svg"}
             alt={item.title}
             width={80}
@@ -132,31 +132,35 @@ export default function Cart() {
 
   console.log("cart", cart)
 
+  if (cart.items.length === 0) {
+    return (
+      <div className=" py-8">
+        <div className="container mx-auto">
+          <div className="flex bg-white rounded-lg border p-5 flex-row items-start justify-center max-w-2xl h-full">
+            <div className="flex items-center justify-center p-2">
+              <BackpackIcon size={40} className="text-blue-500" />
+            </div>
+            <div className="flex flex-col items-center justify-center"> 
+            <h3 className="text-2xl font-bold">Agregá productos y conseguí envío gratis
+            </h3>
+            <span className="text-gray-500">Para obtener envío gratis sumá productos de un mismo vendedor.
+            </span>
+            <Link href="/" className="text-blue-500 font-medium">Ver productos</Link>
+          </div>
+        </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Columna izquierda (items) */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg border mb-4">
-              <div className="p-4 flex items-center border-b">
-                <input
-                  type="checkbox"
-                  checked={true}
-                  className="h-4 w-4 text-blue-500 border-gray-300 rounded"
-                  readOnly
-                />
-                <div className="ml-2">
-                  <div className="flex items-center">
-                    <span className="font-medium">Productos de ECOMODICO</span>
-                    <ChevronRight size={16} className="ml-1 text-gray-500" />
-                  </div>
-                  <div className="flex items-center text-xs text-gray-500">
-                    <span>Tienda oficial</span>
-                    <CheckCircle2 size={12} className="ml-1 text-blue-500" />
-                  </div>
-                </div>
-              </div>
+            <div className="bg-white rounded-lg border mb-4 p-5">
+            
               {cart.items.map((item) => (
                 <CartItem
                   key={`cart-item-${item.product.id}`}
@@ -179,7 +183,7 @@ export default function Cart() {
 
                 <div className="text-sm">
                   <p>
-                    Aprovechá tu envío gratis agregando más productos de <span className="font-medium">ECOMODICO</span>.
+                    Aprovechá tu envío gratis agregando más productos de <span className="font-medium">Liam</span>.
                   </p>
                   <a href="#" className="text-blue-500 font-medium flex items-center mt-1">
                     Ver más productos de este vendedor
