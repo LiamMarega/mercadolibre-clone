@@ -16,7 +16,7 @@ Este proyecto es un clon de Mercado Libre desarrollado con Next.js 15.3.2 y Reac
   "@types/js-cookie": "^3.0.6", // Tipado para js-cookie
   "@uidotdev/usehooks": "^2.4.1", // Colección de hooks personalizados
   "clsx": "^2.1.1", // Utilidad para construir nombres de clase condicionales
-  "js-cookie": "^3.0.5", // Manejo de cookies
+  "js-cookie": "^3.0.5", // Manejo de cookies para los providers
   "lucide-react": "^0.511.0", // Iconos para React
   "next": "15.3.2", // Framework Next.js
   "react": "^19.0.0", // Core de React
@@ -36,6 +36,7 @@ Este proyecto es un clon de Mercado Libre desarrollado con Next.js 15.3.2 y Reac
 │   ├── cart/          # Página del carrito
 │   ├── components/    # Componentes reutilizables
 │   ├── product/       # Páginas de productos
+│   ├── search/        # Página de búsqueda
 │   ├── globals.css    # Estilos globales
 │   ├── layout.tsx     # Layout principal
 │   ├── page.tsx       # Página principal
@@ -71,7 +72,24 @@ El CartContext gestiona el carrito de compras:
 - **Login**: Sistema de autenticación de usuarios
 - **Cart**: Gestión del carrito de compras
 - **Product**: Visualización detallada de productos
+- **Search**: Sistema de búsqueda con query params
 - **Not Found**: Página personalizada para rutas no encontradas
+
+## 🔍 Sistema de Búsqueda
+
+La funcionalidad de búsqueda implementa las siguientes características:
+
+- Búsqueda mediante query params (`/search?query=producto`)
+- Manejo de searchParams en Next.js
+- Interfaz responsive para desktop y móvil
+- Validación de términos de búsqueda
+
+> **Nota sobre la búsqueda**: Actualmente la API utilizada (fakestoreapi.in) no proporciona endpoints para filtrado de productos por nombre. Como mejora futura, se planea implementar:
+>
+> - Cacheo local de productos para búsqueda y filtrado client-side
+> - Sistema de filtros y ordenamiento sobre los datos almacenados
+> - Búsqueda fuzzy para mejores resultados
+> - Historial de búsquedas recientes
 
 ## 🎨 Estilos
 
