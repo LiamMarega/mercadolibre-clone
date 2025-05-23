@@ -44,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password }),
       });
 
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.message || 'Error en el inicio de sesión');
