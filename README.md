@@ -1,7 +1,7 @@
 # Clon de Mercado Libre
 
 Este proyecto es un clon de Mercado Libre desarrollado con Next.js 15.3.2 y React 19, implementando las últimas características y mejores prácticas de desarrollo web moderno.
-<img width="1425" alt="Captura de pantalla 2025-05-22 a la(s) 10 28 28 p  m" src="https://github.com/user-attachments/assets/5017ccdb-b7ac-4136-a757-b899a083d47f" />
+<img width="1425" alt="Captura de pantalla" src="https://github.com/user-attachments/assets/5017ccdb-b7ac-4136-a757-b899a083d47f" />
 
 ## 🚀 Tecnologías Principales
 
