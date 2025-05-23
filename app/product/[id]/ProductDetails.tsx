@@ -24,7 +24,7 @@ export default function ProductDetails({ data }: { data: Product }) {
             <div className="flex flex-col p-8">
                 <h3 className="text-2xl font-bold">{data.title}</h3>
                 <p className="text-3xl font-extralight pt-5">${data.price}</p>
-                <p className="font-extralight text-green-500">Mismo precio en 3 cuotas de ${data.price / 3}</p>
+                <p className="font-extralight text-green-500">Mismo precio en 3 cuotas de ${(data.price / 3).toFixed(2)}</p>
                 <span className="font-extralight text-gray-500">o en cuotas sin tarjeta</span>
                 <div className="flex flex-row gap-4 pt-10">
                     <AddToCartButton product={data} showPrice={false} />
