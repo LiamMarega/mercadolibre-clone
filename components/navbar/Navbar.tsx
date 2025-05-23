@@ -4,15 +4,19 @@ import Link from 'next/link';
 import { FaSearch, FaMapMarkerAlt, FaBell, FaShoppingCart, FaHeart, FaBars } from 'react-icons/fa';
 import Image from 'next/image';
 import useFetch from '@/hooks/useFetch';
-import {  useCart } from '@/context/CartContext';
+import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isLaptop, setIsLaptop] = useState(true);
-  // const [isLogged, setIsLogged] = useState(true);
 
   const { data } = useFetch<{categories: string[]}>('https://fakestoreapi.in/api/products/category');
+  const { user, logout, isAuthenticated } = useAuth();
+  const { cart } = useCart();
+  const router = useRouter();
 
   // Responsive listener
   useEffect(() => {
@@ -29,7 +33,11 @@ const Navbar = () => {
   const toggleCategoriesMenu = () => setShowCategoriesMenu(!showCategoriesMenu);
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
-  const {cart} = useCart()
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+    setShowUserMenu(false);
+  };
 
   return (
     <header className="w-full bg-primary p-1">
@@ -178,7 +186,7 @@ const Navbar = () => {
 
           {/* User Menu & Cart */}
           <div className="flex items-center space-x-4 text-gray-700">
-            {true ? (
+            {isAuthenticated ? (
               <>
                 {/* User Menu - Simplified on mobile */}
                 <div className="relative">
@@ -186,17 +194,17 @@ const Navbar = () => {
                     className="flex items-center space-x-1 text-sm"
                     onClick={toggleUserMenu}
                   >
-                    <span>Liam Marega</span>
+                    <span>{user?.name}</span>
                     {isLaptop && <span className="text-xs">▼</span>}
                   </button>
                   {showUserMenu && (
                     <div className="absolute right-0 top-full bg-white rounded-md shadow-md min-w-[280px] z-[100] mt-2">
                       <div className="p-4 flex items-center space-x-3 ">
                         <div className="bg-[#e5f1ff] text-[#1259c3] rounded-full w-8 h-8 flex items-center justify-center font-medium">
-                          <span>ML</span>
+                          <span>{user?.name?.charAt(0)}</span>
                         </div>
                         <div>
-                          <p className="font-medium">Liam Marega</p>
+                          <p className="font-medium">{user?.name}</p>
                           <Link href="/perfil" className="text-xs text-blue-500">
                             Mi perfil
                           </Link>
@@ -213,7 +221,9 @@ const Navbar = () => {
                           <Link href="/favoritos">Favoritos</Link>
                         </li>
                         <li className="px-4 py-2 hover:bg-gray-100">
-                          <Link href="/logout">Salir</Link>
+                          <button onClick={handleLogout} className="w-full text-left">
+                            Cerrar sesión
+                          </button>
                         </li>
                       </ul>
                     </div>
@@ -237,11 +247,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href="/login" className="text-sm">
-                  Ingresar
+                <Link href="/auth/login" className="text-sm">
+                  Iniciar sesión
                 </Link>
                 {isLaptop && (
-                  <Link href="/registro" className="text-sm">
+                  <Link href="/auth/register" className="text-sm">
                     Crear cuenta
                   </Link>
                 )}
@@ -250,7 +260,7 @@ const Navbar = () => {
             
             <Link href="/cart" className="relative">
               <FaShoppingCart size={20} />
-             {cart.totalItems > 0 && <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">{cart.totalItems }</span>}
+              {cart.totalItems > 0 && <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">{cart.totalItems}</span>}
             </Link>
             
             {/* Mobile Menu Button - Only shown on mobile */}
