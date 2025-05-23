@@ -8,9 +8,7 @@ export default function ProductCard({product}: {product: Product}) {
     <div className="w-full max-w-[220px] h-[350px] cursor-pointer bg-white flex flex-col justify-between border border-none rounded  mx-auto">
         <img className="p-2 rounded-t-lg w-full h-full object-contain" src={product.image} alt="product image" onError={(e) => e.currentTarget.src = '/images/mercadolibre-logo.png'} />
       <div className=" px-3 pb-3 flex flex-col justify-between h-[140px]">
-        <a href="#">
           <h5 className="text-sm mt-5 font-light tracking-tight text-gray-900  overflow-hidden text-ellipsis line-clamp-2">{product.title}</h5>
-        </a>
         <div className="flex items-center mt-1">
           <div className="flex items-center space-x-0.5 rtl:space-x-reverse">
             <svg className="w-3 h-3 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">

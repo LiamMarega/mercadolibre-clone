@@ -12,6 +12,9 @@ const Navbar = () => {
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isLaptop, setIsLaptop] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [cartItems, setCartItems] = useState(0);
+
 
   const { data } = useFetch<{categories: string[]}>('https://fakestoreapi.in/api/products/category');
   const { user, logout, isAuthenticated } = useAuth();
@@ -30,6 +33,10 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    setCartItems(cart.totalItems);
+  }, []);
+
   const toggleCategoriesMenu = () => setShowCategoriesMenu(!showCategoriesMenu);
   const toggleUserMenu = () => setShowUserMenu(!showUserMenu);
 
@@ -37,6 +44,13 @@ const Navbar = () => {
     logout();
     router.push('/');
     setShowUserMenu(false);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+    }
   };
 
   return (
@@ -61,16 +75,18 @@ const Navbar = () => {
           </div>
             {/* Search Bar - Only shown on laptop */}
             {isLaptop && (
-              <div className="relative w-full max-w-[450px] mx-4">
+              <form onSubmit={handleSearch} className="relative w-full max-w-[450px] mx-4">
                 <input
                   type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Buscar productos, marcas y más..."
                   className="w-full py-2.5 px-[15px] border-0 rounded text-sm bg-white"
                 />
-                <button className="absolute right-0 top-0 h-full px-[10px] bg-white border-none rounded-r cursor-pointer">
+                <button type="submit" className="absolute right-0 top-0 h-full px-[10px] bg-white border-none rounded-r cursor-pointer">
                   <FaSearch className="text-gray-500" />
                 </button>
-              </div>
+              </form>
             )}
 
           {/* Subscription Banner - Only shown on laptop */}
@@ -90,16 +106,18 @@ const Navbar = () => {
         {/* Mobile Search (visible only on small screens) */}
         {!isLaptop && (
           <div className="w-full my-2">
-            <div className="relative">
+            <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar productos, marcas y más..."
-                className="w-full py-2 px-[15px] border-0 rounded text-sm"
+                className="w-full py-2 px-[15px] border-0 rounded text-sm bg-white"
               />
-              <button className="absolute right-0 top-0 h-full px-[10px] bg-white border-none rounded-r cursor-pointer">
+              <button type="submit" className="absolute right-0 top-0 h-full px-[10px] bg-white border-none rounded-r cursor-pointer">
                 <FaSearch className="text-gray-500" />
               </button>
-            </div>
+            </form>
           </div>
         )}
       </div>
@@ -260,7 +278,11 @@ const Navbar = () => {
             
             <Link href="/cart" className="relative">
               <FaShoppingCart size={20} />
-              {cart.totalItems > 0 && <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">{cart.totalItems}</span>}
+              {cartItems > 0 && (
+                <span className="absolute -top-[5px] -right-[5px] bg-red-500 text-white text-xs size-3 rounded-full flex items-center justify-center">
+                  {cartItems}
+                </span>
+              )}
             </Link>
             
             {/* Mobile Menu Button - Only shown on mobile */}
