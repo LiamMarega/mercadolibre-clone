@@ -3,6 +3,18 @@
 Este proyecto es un clon de Mercado Libre desarrollado con Next.js 15.3.2 y React 19, implementando las últimas características y mejores prácticas de desarrollo web moderno.
 <img width="1425" alt="Captura de pantalla" src="https://github.com/user-attachments/assets/5017ccdb-b7ac-4136-a757-b899a083d47f" />
 
+
+Credenciales de login:
+
+const MOCK_USER = {
+  email: 'meli@test.com',
+  password: '123456',
+  name: 'Liam Marega',
+  id: '1'
+};
+
+
+
 ## 🚀 Tecnologías Principales
 
 - **Next.js 15.3.2**: Framework de React para producción
@@ -45,14 +57,6 @@ Este proyecto es un clon de Mercado Libre desarrollado con Next.js 15.3.2 y Reac
 │   ├── AuthContext.tsx  # Contexto de autenticación
 │   └── CartContext.tsx  # Contexto del carrito
 ```
-Credenciales de login:
-
-const MOCK_USER = {
-  email: 'meli@test.com',
-  password: '123456',
-  name: 'Liam Marega',
-  id: '1'
-};
 
 ## 🔐 Providers
 
