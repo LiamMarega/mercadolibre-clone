@@ -50,16 +50,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(error.message || 'Error en el inicio de sesión');
       }
 
-      const userData = await response.json();
+      const {token, user} = await response.json();
       
+
+       // Guarda el token en una cookie
+    Cookies.set('token', token, { 
+      expires: 7,
+      // secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
       // Store user data in cookie (without password)
-      Cookies.set('user', JSON.stringify(userData), { 
+      Cookies.set('user', JSON.stringify(user), { 
         expires: 7,
-        secure: process.env.NODE_ENV === 'production',
+        // secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict'
       });
 
-      setUser(userData);
+      setUser(user);
       setIsAuthenticated(true);
     } catch (error) {
       console.error('Login error:', error);
@@ -69,6 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     Cookies.remove('user');
+    Cookies.remove('token');
     setUser(null);
     setIsAuthenticated(false);
   };
