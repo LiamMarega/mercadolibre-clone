@@ -223,7 +223,7 @@ const Navbar = () => {
                         </div>
                         <div>
                           <p className="font-medium">{user?.name}</p>
-                          <Link href="/perfil" className="text-xs text-blue-500">
+                          <Link href="/profile" className="text-xs text-blue-500">
                             Mi perfil
                           </Link>
                         </div>

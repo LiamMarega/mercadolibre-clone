@@ -1,12 +1,24 @@
+import { signToken } from '@/lib/auth';
 import { NextResponse } from 'next/server';
 
+
 // Hardcoded user for testing
-const MOCK_USER = {
+const MOCK_USER = [{
+  id: '1',
   email: 'meli@test.com',
   password: '123456',
   name: 'Liam Marega',
-  id: '1'
-};
+}, 
+{
+  id: '2',
+  email: 'liammarega85@gmail.com',
+  password: '123456',
+  name: 'Liam Marega',
+},
+];
+
+
+
 
 export async function POST(request: Request) {
   try {
@@ -21,10 +33,14 @@ export async function POST(request: Request) {
     }
 
     // Check against hardcoded credentials
-    if (email === MOCK_USER.email && password === MOCK_USER.password) {
+    const user = MOCK_USER.find((user) => user.email === email);
+    if (user && password === user.password) {
       // Return user data without password
-      const { email, name, id } = MOCK_USER;
-      return NextResponse.json({ email, name, id });
+      const { email, name, id } = user;
+      const token = await signToken({id, email, name});
+
+      return NextResponse.json({token, user: { email, name, id }});
+
     }
 
     return NextResponse.json(

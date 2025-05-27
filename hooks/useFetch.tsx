@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 // Definimos una interfaz genérica para el resultado
 interface FetchResult<T> {
@@ -19,7 +20,12 @@ const useFetch = <T,>(url: string): FetchResult<T> => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(url, { signal });
+
+        const token = Cookies.get('token');
+        const response = await fetch(url, { signal, headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        } });
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
